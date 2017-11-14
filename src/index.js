@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import UsersList from './components/UsersList';
+import UsersList from "./components/UsersList";
+import AddUser from "./components/AddUser";
 
 class App extends Component {
   constructor() {
@@ -25,6 +26,11 @@ class App extends Component {
       });
   }
 
+  addUser(event) {
+    event.preventDefault();
+    console.log("sanity check!");
+  }
+
   render() {
     return (
       <div className="container">
@@ -34,7 +40,10 @@ class App extends Component {
             <h1>All Users</h1>
             <hr />
             <br />
-            <UsersList users={this.state.users}/>
+            <AddUser addUser={this.addUser.bind(this)} />
+            <hr />
+            <br />
+            <UsersList users={this.state.users} />
           </div>
         </div>
       </div>
