@@ -16,7 +16,7 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
 RUN yarn install --silent
-RUN yarn install pushstate-server -g --silent
+RUN yarn global add pushstate-server -g --silent
 
 # add app
 ADD . /usr/src/app
