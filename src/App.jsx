@@ -7,6 +7,7 @@ import AddUser from "./components/AddUser";
 import About from "./components/About";
 import NavBar from "./components/NavBar";
 import Form from "./components/Form";
+import Logout from "./components/Logout";
 
 class App extends Component {
   constructor() {
@@ -105,6 +106,11 @@ class App extends Component {
     this.setState(obj);
   }
 
+  logoutUser() {
+    window.localStorage.clear();
+    this.setState({ isAuthenticated: false });
+  }
+
   render() {
     return (
       <div>
@@ -160,6 +166,16 @@ class App extends Component {
                         this
                       )}
                       handleFormChange={this.handleFormChange.bind(this)}
+                      isAuthenticated={this.state.isAuthenticated}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/logout"
+                  render={() => (
+                    <Logout
+                      logoutUser={this.logoutUser.bind(this)}
                       isAuthenticated={this.state.isAuthenticated}
                     />
                   )}
