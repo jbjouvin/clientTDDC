@@ -62,6 +62,40 @@ class App extends Component {
     this.setState(obj);
   }
 
+  handleUserFormSubmit(event) {
+    event.preventDefault();
+    const formType = window.location.href.split("/").reverse()[0];
+    let data;
+    if (formType === "login") {
+      data = {
+        email: this.state.formData.email,
+        password: this.state.formData.password
+      };
+    }
+    if (formType === "register") {
+      data = {
+        username: this.state.formData.username,
+        email: this.state.formData.email,
+        password: this.state.formData.password
+      };
+    }
+    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`;
+    axios
+      .post(url, data)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  handleFormChange(event) {
+    const obj = this.state.formData;
+    obj[event.target.name] = event.target.value;
+    this.setState(obj);
+  }
+
   render() {
     return (
       <div>
@@ -98,6 +132,10 @@ class App extends Component {
                     <Form
                       formType={"Register"}
                       formData={this.state.formData}
+                      handleUserFormSubmit={this.handleUserFormSubmit.bind(
+                        this
+                      )}
+                      handleFormChange={this.handleFormChange.bind(this)}
                     />
                   )}
                 />
@@ -105,7 +143,14 @@ class App extends Component {
                   exact
                   path="/login"
                   render={() => (
-                    <Form formType={"Login"} formData={this.state.formData} />
+                    <Form
+                      formType={"Login"}
+                      formData={this.state.formData}
+                      handleUserFormSubmit={this.handleUserFormSubmit.bind(
+                        this
+                      )}
+                      handleFormChange={this.handleFormChange.bind(this)}
+                    />
                   )}
                 />
               </Switch>
