@@ -86,12 +86,14 @@ class Form extends Component {
   componentDidMount() {
     this.clearForm();
   }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.formType !== nextProps.formType) {
       this.clearForm();
       this.initRules();
     }
   }
+
   clearForm() {
     this.setState({
       formData: { username: "", email: "", password: "" }
@@ -103,6 +105,7 @@ class Form extends Component {
     this.setState(obj);
     this.validateForm();
   }
+
   handleUserFormSubmit(event) {
     event.preventDefault();
     const formType = this.props.formType;
@@ -128,9 +131,15 @@ class Form extends Component {
         this.props.loginUser(res.data.auth_token);
       })
       .catch(err => {
-        console.log(err);
+        if (formType === "login") {
+          this.props.createMessage("User does not exist.", "danger");
+        }
+        if (formType === "register") {
+          this.props.createMessage("That user already exists.", "danger");
+        }
       });
   }
+
   render() {
     if (this.props.isAuthenticated) {
       return <Redirect to="/" />;
